@@ -41,6 +41,10 @@ public class jokeController extends Controller {
 
 ```
 
+If you want to grab json stats from the server you can do so by adding folowing linke to the route file
 
+```java
+GET     /_admin/stats                si.poponline.play.module.Controllers.adminController.getStats()
+```
 
 
