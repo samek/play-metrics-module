@@ -1,4 +1,4 @@
-name := """play-framework-metrics-module"""
+name := """play-metrics-module"""
 
 version := "1.0"
 
