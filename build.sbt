@@ -24,6 +24,7 @@ publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 publishTo := {
     Some("releases"  at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 }
@@ -37,6 +38,7 @@ licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.ap
 
 
 pomExtra :=
+  <url>https://github.com/samek/play-metrics-module</url>
   <scm>
     <url>https://github.com/samek/play-metrics-module</url>
     <connection>scm:git:git@github.com/samek/play-metrics-module.git</connection>
