@@ -4,13 +4,15 @@
 
 In your play framework project add this line to build.sbt
 
-``` "si.poponline" % "play-metrics-module_2.11" % "1.0"```
+``` "si.poponline" % "play-metrics-module_2.11" % "1.1"```
 
 to application config add: 
 
 ```aidl
 play.poponline.graphite.host="YOUR_GRAPHITE_HOST"
 play.poponline.app_name="PROJECT_NAME"
+play.poponline.graphiteDump="30"
+play.poponline.cleanUpAfter="60"
 ```
 
 

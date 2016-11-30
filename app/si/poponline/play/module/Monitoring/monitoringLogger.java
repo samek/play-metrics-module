@@ -1,5 +1,6 @@
 package si.poponline.play.module.Monitoring;
 
+import com.typesafe.config.ConfigFactory;
 import si.poponline.play.module.Statistics.Statistics;
 import si.poponline.play.module.Senders.UDPClient;
 
@@ -18,15 +19,35 @@ public class monitoringLogger {
         return ourInstance;
     }
 
-    private monitoringLogger() {
-    }
 
-    private Integer graphiteDump = 30;
-    private Integer cleanUpAfter = 300;
-    private UDPClient uclient = new UDPClient();
+    private Integer graphiteDump;
+    private Integer cleanUpAfter;
+    private UDPClient uclient;
     private Integer lastCleanUp=0;
     private Integer lastGraphiteSend=0;
     private ConcurrentHashMap<String,Statistics> logged = new ConcurrentHashMap<String,Statistics>();
+    private String host;
+    private String appname;
+
+
+    private monitoringLogger() {
+        this.host = this.checkConfigVar("play.poponline.graphite.host","127.0.0.1");
+        this.appname = this.checkConfigVar("play.poponline.app_name","my-play-app");
+        this.graphiteDump = Integer.parseInt(this.checkConfigVar("play.poponline.graphiteDump","30"));
+        this.cleanUpAfter = Integer.parseInt(this.checkConfigVar("play.poponline.cleanUpAfter","60"));
+        this.uclient = new UDPClient(host,appname);
+    }
+
+
+    private String checkConfigVar(String varname, String defaultValue) {
+        if (ConfigFactory.load().getIsNull(varname)) {
+            return defaultValue;
+        }
+        if (ConfigFactory.load().getString(varname).isEmpty()) {
+            return defaultValue;
+        }
+        return ConfigFactory.load().getString(varname);
+    }
 
     private Integer getUnixTime() {
         return (int) (System.currentTimeMillis()/1000L );

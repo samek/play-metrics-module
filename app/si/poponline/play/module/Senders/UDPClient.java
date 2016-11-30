@@ -11,20 +11,28 @@ import java.net.InetAddress;
  */
 public class UDPClient {
 
+    private static String udpHost="127.0.0.1";
+    private static String appName="my-play-app";
+
+    public UDPClient(String udpHost, String appName) {
+        this.udpHost = udpHost;
+        this.appName = appName;
+    }
+
     public static void Send(String packet, String value, String type) {
 
         try {
-            String host = ConfigFactory.load().getString("play.poponline.graphite.host");
-            String appname = ConfigFactory.load().getString("play.poponline.app_name");
+            //String host = ConfigFactory.load().getString("play.poponline.graphite.host");
+            //String appname = ConfigFactory.load().getString("play.poponline.app_name");
             int port = 2003;
 
             Integer unixTime = (int) (System.currentTimeMillis() / 1000L);
             byte[] message = (
-                    "apps."+appname +packet+"."+type+" "+value+" "+unixTime.toString()
+                    "apps."+appName +packet+"."+type+" "+value+" "+unixTime.toString()
             ).getBytes();
 
             // Get the internet address of the specified host
-            InetAddress address = InetAddress.getByName(host);
+            InetAddress address = InetAddress.getByName(udpHost);
 
             // Initialize a datagram packet with data and address
             DatagramPacket dgram = new DatagramPacket(message, message.length, address, port);
